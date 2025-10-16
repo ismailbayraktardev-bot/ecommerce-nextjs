@@ -1,6 +1,6 @@
 Proje: Modern Panel & Page Builder Sistemi
 Bu proje, e-ticaret ve kurumsal web siteleri için geliştirilmiş, modüler ve çoklu demo desteği sunan modern bir tema sistemi ve entegre page builder'dır. Geliştirme süreci, AI kod asistanları (Gemini, GPT Codex, Cloud Code) ile hızlandırılmıştır.
-
+ 
 🚀 Proje Amacı
 Modüler Altyapı: Tek bir ana tema üzerinde farklı sektörlere yönelik (e-ticaret, kurumsal) hazır demo varyantları sunmak.
 
