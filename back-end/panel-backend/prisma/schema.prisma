@@ -1,0 +1,197 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  name        String?
+  image       String?
+  password    String?  // For credentials-based registration
+  role        UserRole @default(USER)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  accounts    Account[]
+  sessions    Session[]
+  pages       Page[]
+  sites       Site[]
+
+  @@map("users")
+}
+
+model Site {
+  id          String   @id @default(cuid())
+  name        String
+  domain      String?  @unique
+  subdomain   String?  @unique
+  description String?
+  favicon     String?
+  logo        String?
+
+  // Demo configuration
+  demoId      String?
+  demoData    Json?
+
+  // Theme settings
+  theme       Json     @default("{}")
+  customCSS   String?
+
+  // User relation
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Content relations
+  pages       Page[]
+  media       Media[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("sites")
+}
+
+model Page {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String
+  content     Json      @default("[]") // Block data
+  metaTitle   String?
+  metaDesc    String?
+  published   Boolean   @default(false)
+
+  // Site relation
+  siteId      String
+  site        Site      @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  // User relation
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([siteId, slug])
+  @@map("pages")
+}
+
+model Block {
+  id          String   @id @default(cuid())
+  type        String   // "hero", "features", "testimonials", etc.
+  name        String
+  category    String   // "layout", "content", "ecommerce"
+  icon        String?
+
+  // Block definition
+  schema      Json     // Block attributes schema
+  defaultData Json     // Default attribute values
+
+  // Metadata
+  version     String   @default("1.0.0")
+  published   Boolean  @default(true)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("blocks")
+}
+
+model Media {
+  id          String   @id @default(cuid())
+  filename    String
+  originalName String
+  mimeType    String
+  size        Int
+  url         String
+  width       Int?
+  height      Int?
+  alt         String?
+
+  // Site relation
+  siteId      String
+  site        Site     @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("media")
+}
+
+model Demo {
+  id          String   @id @default(cuid())
+  name        String
+  category    String   // "ecommerce", "corporate"
+  subcategory String   // "fashion", "agency", etc.
+  description String?
+  thumbnail   String?
+
+  // Demo configuration
+  config      Json     // Theme settings, colors, fonts
+  pages       Json     // Page templates
+  blocks      Json     // Block data
+  media       Json     // Media files metadata
+
+  // Metadata
+  version     String   @default("1.0.0")
+  published   Boolean  @default(true)
+  downloads   Int      @default(0)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("demos")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}

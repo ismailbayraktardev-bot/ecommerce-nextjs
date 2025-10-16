@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: ecommerce_db
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ecommerce
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ./back-end/panel-backend
+      dockerfile: Dockerfile
+    container_name: ecommerce_backend
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "postgresql://user:password@db:5432/ecommerce"
+      NEXTAUTH_URL: "http://localhost:3000"
+      LOG_LEVEL: "debug" # Bu satırı ekle
+      # Diğer backend ortam değişkenleri buraya eklenebilir
+      # Örneğin: NEXTAUTH_SECRET, CLOUDINARY_URL
+
+  frontend:
+    build:
+      context: ./front-end/panel-frontend
+      dockerfile: Dockerfile
+    container_name: ecommerce_frontend
+    depends_on:
+      - backend
+    ports:
+      - "3100:3000" # Konteynerdeki 3000 portunu dışarıya 3100 olarak aç
+    environment:
+      NEXTAUTH_URL: "http://localhost:3000" # Kimlik doğrulama için backend'e yönlendir
+      # Diğer frontend ortam değişkenleri buraya eklenebilir
+
+volumes:
+  postgres_data:

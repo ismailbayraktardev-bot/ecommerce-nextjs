@@ -1,0 +1,53 @@
+name: Backend CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'back-end/**'
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'back-end/**'
+
+jobs:
+  check-backend:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./back-end/panel-backend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: back-end/panel-backend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Lint
+        run: npm run lint
+
+      # 'typecheck' script'i package.json'a eklendiğinde bu adım aktif edilecek
+      # - name: Run Type Check
+      #   run: npm run typecheck
+
+      - name: Run Prisma Migrate
+        run: npx prisma migrate deploy
+        env:
+          # Bu secret'ın GitHub repository ayarlarında tanımlanması gerekecek.
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Run Build
+        run: npm run build
