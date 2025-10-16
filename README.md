@@ -8,7 +8,7 @@
 
 ---
 
-E-ticaret ve kurumsal web siteleri için geliştirilmiş, modüler ve çoklu demo desteği sunan modern bir tema sistemi ve entegre, sürükle-bırak arayüzlü bir sayfa oluşturucu (Page Builder).
+Bu proje, e-ticaret ve kurumsal web siteleri için geliştirilmiş, modüler ve çoklu demo desteği sunan modern bir tema sistemi ve entegre, sürükle-bırak arayüzlü bir sayfa oluşturucu (Page Builder) projesidir. Geliştirme süreci, AI kod asistanları (Gemini, GPT Codex, Cloud Code) ile hızlandırılmıştır.
 
 ## 🚀 Proje Vizyonu
 
@@ -44,7 +44,7 @@ Projeyi yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin.
 
 ### Gereksinimler
 
-- Node.js 18+ 
+- Node.js 18+
 - npm / yarn / pnpm
 - PostgreSQL veritabanı
 
@@ -96,6 +96,9 @@ Projeyi yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin.
 - **ARDA:** Backend & Veritabanı Uzmanı (Gemini Code Assist)
 - **LUNA:** Frontend & UI/UX Uzmanı (GPT Codex)
 - **DENİZ:** DevOps & Entegrasyon Uzmanı (Cloud Code)
+
+## 🤖 AI Kullanım Notu
+Bu projede AI ajanları, geliştirme sürecini hızlandırmak için birer asistan olarak kullanılır. `docs/ai/ai-agent-mega-prompts.md` dosyasındaki prompt'lar, AI'dan en iyi verimi almak için özel olarak tasarlanmıştır. Çıktıların her zaman test edilmesi ve projenin standartlarına uygun şekilde refactor edilmesi gerektiğini unutmayın.
 
 ## 📄 Lisans
 
