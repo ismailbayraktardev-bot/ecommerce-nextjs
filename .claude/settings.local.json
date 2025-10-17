@@ -4,7 +4,10 @@
       "Bash(npm run dev:*)",
       "Bash(dir:*)",
       "Bash(npm install:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nfeat: Complete Sprint 3 & Sprint 4 - Full CMS with Page Builder\n\n🎉 MEGA UPDATE - Sprint 3 & 4 Complete!\n\n## Sprint 3 (100%)\n✅ State Management (Zustand + TanStack Query)\n✅ Authentication APIs integration (register, forgot-password, reset-password)\n✅ Site Management (list, create, edit, delete)\n✅ Dashboard real API stats\n✅ Full responsive design\n\n## Sprint 4 (90%)\n✅ Pages Management (list, create, delete)\n✅ Page Builder with drag & drop (@dnd-kit)\n✅ 5 Block types (Heading, Text, Image, Button, Spacer)\n✅ Properties panel for block editing\n✅ Media Upload interface (drag & drop)\n✅ Canvas with visual selection\n\n## Backend APIs (Arda)\n✅ Forgot/Reset Password endpoints\n✅ Sites CRUD (5 endpoints)\n✅ Pages CRUD (5 endpoints)\n✅ Dashboard stats endpoint\n✅ Media upload endpoint\n\n## Frontend Features\n✅ 50+ files created\n✅ 40+ components\n✅ 8 custom hooks\n✅ 3 Zustand stores\n✅ Full TypeScript strict mode\n✅ Professional UI/UX\n✅ Mobile-first responsive\n✅ Loading states everywhere\n✅ Empty states with CTAs\n✅ Error handling\n\n## Files Added\n- State management (4 files)\n- API client & hooks (4 files)\n- Site management pages (3 files)\n- Pages management (2 files)\n- Page builder blocks (7 files)\n- Media library (1 file)\n- Reset password (2 files)\n- Documentation (5 files)\n\n## Production Ready\n- Authentication flow complete\n- Multi-site management\n- Drag & drop page builder\n- Media library\n- Real-time dashboard\n- SEO optimized pages\n- Full Türkçe interface\n\nTime: Sprint 3 (2 weeks planned) → 1 day\n      Sprint 4 (2 weeks planned) → 1 day\n\n🚀 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []
