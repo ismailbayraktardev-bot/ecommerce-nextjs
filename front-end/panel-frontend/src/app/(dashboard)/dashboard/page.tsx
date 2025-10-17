@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { useDashboardStats } from "@/hooks/use-dashboard";
 import { StatsCard } from "@/components/dashboard/stats-card";
 import { RecentActivity } from "@/components/dashboard/recent-activity";
 import { QuickActions } from "@/components/dashboard/quick-actions";
@@ -9,6 +10,7 @@ import { Globe, FileText, Image, Users, TrendingUp, Clock } from "lucide-react";
 
 export default function DashboardPage() {
   const { data: session } = useSession();
+  const { data: stats, isLoading: statsLoading } = useDashboardStats();
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
@@ -36,14 +38,15 @@ export default function DashboardPage() {
     });
   };
 
-  // Mock data - Arda backend'i tamamladıktan sonra real API'den gelecek
   const statsData = [
     {
       title: "Toplam Siteler",
-      value: "3",
+      value: stats?.totalSites.toString() || "0",
       change: {
-        value: "+1 bu ay",
-        type: "increase" as const,
+        value: stats?.sitesChange
+          ? `${stats.sitesChange > 0 ? "+" : ""}${stats.sitesChange} bu ay`
+          : "Değişiklik yok",
+        type: (stats?.sitesChange || 0) >= 0 ? ("increase" as const) : ("decrease" as const),
       },
       icon: Globe,
       description: "Aktif projeleriniz",
@@ -51,10 +54,12 @@ export default function DashboardPage() {
     },
     {
       title: "Toplam Sayfalar",
-      value: "12",
+      value: stats?.totalPages.toString() || "0",
       change: {
-        value: "+4 bu hafta",
-        type: "increase" as const,
+        value: stats?.pagesChange
+          ? `${stats.pagesChange > 0 ? "+" : ""}${stats.pagesChange} bu hafta`
+          : "Değişiklik yok",
+        type: (stats?.pagesChange || 0) >= 0 ? ("increase" as const) : ("decrease" as const),
       },
       icon: FileText,
       description: "Oluşturduğunuz sayfalar",
@@ -62,25 +67,16 @@ export default function DashboardPage() {
     },
     {
       title: "Medya Dosyaları",
-      value: "48",
+      value: stats?.totalMedia.toString() || "0",
       change: {
-        value: "+12 bu hafta",
-        type: "increase" as const,
+        value: stats?.mediaChange
+          ? `${stats.mediaChange > 0 ? "+" : ""}${stats.mediaChange} bu hafta`
+          : "Değişiklik yok",
+        type: (stats?.mediaChange || 0) >= 0 ? ("increase" as const) : ("decrease" as const),
       },
       icon: Image,
       description: "Yüklenen görseller",
       color: "purple" as const,
-    },
-    {
-      title: "Aylık Görüntülenme",
-      value: "2.4K",
-      change: {
-        value: "+18.2%",
-        type: "increase" as const,
-      },
-      icon: TrendingUp,
-      description: "Site ziyaretçileri",
-      color: "orange" as const,
     },
   ];
 
